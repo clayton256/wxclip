@@ -1,0 +1,40 @@
+#
+# File: makefile.vc
+# Author: Mark Clayton
+# Created: 10/23/2012
+# Copyright:(c) Mark Clayton
+#
+# Makefile : Builds wxclip (VC++, WIN32)
+# Use FINAL=1 argument to nmake to build final version with no debug info.
+
+# Set WXDIR for your system
+WXDIR = $(WXWIN)
+
+PROGRAM=wxclip	
+_VERSIONSTR="0.1"
+OBJECTS = wxclip.obj 
+
+#!include $(WXDIR)\src\makeprog.vc
+
+
+all: wxclip.exe
+
+wxclip.obj: wxclip.cpp
+	cl /c /nologo /TP /Fowxgui.obj /MDd /DWIN32 /DVERSIONSTR=\"$(_VERSIONSTR)\" /Zi /FdOww.pdb /D_DEBUG /Od /D_CRT_SECURE_NO_DEPRECATE=1 /D_CRT_NON_CONFORMING_SWPRINTFS=1 /D_SCL_SECURE_NO_WARNINGS=1 /D__WXMSW__ /D_UNICODE /I$(WXDIR)lib\vc_lib\mswud /I$(WXDIR)include /W4 /I$(OWWLDIR) /D_WINDOWS /I. /DNOPCH /GR  /EHsc .\wxclip.cpp
+
+
+wxclip.res: wxclip.rc
+	rc.exe /nologo /fowxclip.res /i ..\wxWidgets-2.9.4\include wxclip.rc
+
+wxclip.exe: wxclip.obj wxclip.res
+	link /NOLOGO /OUT:wxclip.exe /DEBUG /pdb:"wxclip.pdb" /LIBPATH:$(WXDIR)\lib\vc_lib /SUBSYSTEM:WINDOWS wxbase29ud.lib wxmsw29ud_core.lib wxmsw29ud_xrc.lib wxbase29ud_net.lib wxjpegd.lib wxpngd.lib wxtiffd.lib wxzlibd.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib rpcrt4.lib wxclip.obj wxclip.res 
+
+
+clean:
+	del *.obj *.res *.pch *.ilk *.pdb wxclip.exe.manifest
+
+very-clean: clean
+	del wxclip.exe
+
+
+
