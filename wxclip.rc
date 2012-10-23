@@ -1,0 +1,4 @@
+mondrian ICON "clipboard.ico"
+#include "wx/msw/wx.rc"
+
+

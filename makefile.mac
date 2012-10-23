@@ -1,0 +1,43 @@
+
+#/Users/mark/Projects/wxWidgets-2.9.4/include/wx/wxprec.h 
+
+#g++ -mmacosx-version-min=10.5 -c -o bombs_bombs.o -D__WXOSX_COCOA__      -I../../../demos/bombs  -I../../../demos/bombs/../../samples -Wall -Wundef -Wunused-parameter -Wno-ctor-dtor-privacy -Woverloaded-virtual -Wno-deprecated-declarations -D_FILE_OFFSET_BITS=64 -I/Users/mark/Projects/wxWidgets-2.9.4/cocoa-debug/lib/wx/include/osx_cocoa-unicode-static-2.9 -I../../../include -DWX_PRECOMP -g -O0 -fno-common  ../../../demos/bombs/bombs.cpp
+
+all: wxclip.app
+
+
+wxclip.o: wxclip.cpp clipboard.xpm
+	g++ -mmacosx-version-min=10.5 -c -o wxclip.o -D__WXOSX_COCOA__ -Wall -Wundef -Wunused-parameter -Wno-ctor-dtor-privacy -Woverloaded-virtual -Wno-deprecated-declarations -D_FILE_OFFSET_BITS=64 -I/Users/mark/Projects/wxWidgets-2.9.4/cocoa-debug/lib/wx/include/osx_cocoa-unicode-static-2.9 -I/Users/mark/Projects/wxWidgets-2.9.4/include -DWX_PRECOMP -g -O0 -fno-common wxclip.cpp
+
+#g++ -mmacosx-version-min=10.5 -o wxpoem  wxpoem_wxpoem.o     -L/Users/mark/Projects/wxWidgets-2.9.4/cocoa-debug/lib   -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework System -framework OpenGL   -lwx_osx_cocoau_html-2.9  -lwx_osx_cocoau_core-2.9  -lwx_baseu-2.9   -lwxtiff-2.9 -lwxjpeg-2.9 -lwxpng-2.9 -framework WebKit  -lwxregexu-2.9  -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework System -framework OpenGL  -lz -lpthread -liconv  -lz -lpthread -liconv
+#SetFile -t APPL wxpoem
+#mkdir -p wxpoem.app/Contents
+#mkdir -p wxpoem.app/Contents/MacOS
+#mkdir -p wxpoem.app/Contents/Resources
+#sed -e "s/IDENTIFIER/`echo ../../../demos/poem | sed -e 's,\.\./,,g' | sed -e 's,/,.,g'`/" \
+#	-e "s/EXECUTABLE/wxpoem/" \
+#	-e "s/VERSION/2.9.4/" \
+#	../../../src/osx/carbon/Info.plist.in >wxpoem.app/Contents/Info.plist
+#/bin/echo "APPL????" >wxpoem.app/Contents/PkgInfo
+#ln -f wxpoem wxpoem.app/Contents/MacOS/wxpoem
+#cp -f ../../../src/osx/carbon/wxmac.icns wxpoem.app/Contents/Resources/wxmac.icns
+
+wxclip.app: wxclip.o wxclip.icns Info.plist.in
+	g++ -mmacosx-version-min=10.5 -o wxclip wxclip.o -L/Users/mark/Projects/wxWidgets-2.9.4/cocoa-debug/lib -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework System -framework OpenGL -lwx_osx_cocoau_html-2.9 -lwx_osx_cocoau_core-2.9 -lwx_osx_cocoau_adv-2.9 -lwx_baseu-2.9 -lwxtiff-2.9 -lwxjpeg-2.9 -lwxpng-2.9 -framework WebKit -lwxregexu-2.9 -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework System -framework OpenGL -lz -lpthread -liconv -lz -lpthread -liconv
+	SetFile -t APPL wxclip
+	mkdir -p wxclip.app/Contents
+	mkdir -p wxclip.app/Contents/MacOS
+	mkdir -p wxclip.app/Contents/Resources
+	sed -e "s/IDENTIFIER/`echo ../wxclip | sed -e 's,\.\./,,g' | sed -e 's,/,.,g'`/" \
+		-e "s/EXECUTABLE/wxclip/" \
+		-e "s/VERSION/2.9.4/" \
+		Info.plist.in >wxclip.app/Contents/Info.plist
+	/bin/echo "APPL????" >wxclip.app/Contents/PkgInfo
+	ln -f wxclip wxclip.app/Contents/MacOS/wxclip
+	cp -f wxclip.icns wxclip.app/Contents/Resources/wxclip.icns
+
+wxclip.icns: clipboard.png
+	sips -s format icns clipboard.png --out wxclip.icns
+
+clean:
+	rm -rf wxclip.app wxclip *.o wxclip.icns 
