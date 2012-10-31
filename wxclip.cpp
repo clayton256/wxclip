@@ -51,12 +51,13 @@
 #include <wx/config.h>
 #include <wx/wfstream.h>
 #include <wx/taskbar.h>
+#include <wx/filename.h>
 
 const static int wxClip_MaxLabel = 14;
 const static int wxClip_MaxText  = 2048;
 
 #if defined(__WXGTK__)
-const static int wxClip_Width  = 130;
+const static int wxClip_Width  = 150;
 const static int wxClip_Height = 280;
 const static int wxClip_MenuHeight = 27;
 #elif defined(__WXMSW__)
@@ -64,8 +65,8 @@ const static int wxClip_Width = 130;
 const static int wxClip_Height = 270;
 const static int wxClip_MenuHeight = 20;
 #elif defined(__WXOSX_COCOA__)
-const static int wxClip_Width = 130;
-const static int wxClip_Height = 270;
+const static int wxClip_Width = 140;
+const static int wxClip_Height = 280;
 const static int wxClip_MenuHeight = 0;
 #else
 #error need width and height
@@ -404,59 +405,168 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     SetIcon(wxICON(clipboard));
 #endif
 #endif
+#if defined(__WXOSX_COCOA__)
     wxString dir = "/Library/Application Support/wxclip/pixmaps/";
-
+#elif defined(__WXGTK__)
+    wxString dir = "./";
+#elif defined(__WXMSW__)
+    wxString dir = "\\Program Files\\wxclip\\pixmaps\\";
+#else
+#error where are the pix?
+#endif
+#if 1
     wxString label;
     if(TRUE != pConfig->Read(_T("/A/Label"), &label)) label = _T("A");
     ButtonA = new wxButton(this, wxClipButtonA, label.Left(wxClip_MaxLabel), wxPoint(1, 1), wxSize(101,25));
     wxBitmap bitmapA = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
-    ButtonConfigA = new wxBitmapButton(this, wxClipButtonConfigA, bitmapA, wxPoint(105, 1));
+    ButtonConfigA = new wxBitmapButton(this, wxClipButtonConfigA, bitmapA, wxPoint(110, 6));
 
     if(TRUE != pConfig->Read(_T("/B/Label"), &label)) label = _T("B");
     ButtonB = new wxButton(this, wxClipButtonB, label.Left(wxClip_MaxLabel), wxPoint(1, 25), wxSize(101,25));
     wxBitmap bitmapB = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
-    ButtonConfigB = new wxBitmapButton(this, wxClipButtonConfigB, bitmapB, wxPoint(105, 25));
+    ButtonConfigB = new wxBitmapButton(this, wxClipButtonConfigB, bitmapB, wxPoint(110, 30));
 
     if(TRUE != pConfig->Read(_T("/C/Label"), &label)) label = _T("C");
     ButtonC = new wxButton(this, wxClipButtonC, label.Left(wxClip_MaxLabel), wxPoint(1, 50), wxSize(101,25));
     wxBitmap bitmapC = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
-    ButtonConfigC = new wxBitmapButton(this, wxClipButtonConfigC, bitmapC, wxPoint(105, 50));
+    ButtonConfigC = new wxBitmapButton(this, wxClipButtonConfigC, bitmapC, wxPoint(110, 55));
 
     if(TRUE != pConfig->Read(_T("/D/Label"), &label)) label = _T("D");
     ButtonD = new wxButton(this, wxClipButtonD, label.Left(wxClip_MaxLabel), wxPoint(1, 75), wxSize(101,25));
     wxBitmap bitmapD = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
-    ButtonConfigD = new wxBitmapButton(this, wxClipButtonConfigD, bitmapD, wxPoint(105, 75));
+    ButtonConfigD = new wxBitmapButton(this, wxClipButtonConfigD, bitmapD, wxPoint(110, 80));
 
     if(TRUE != pConfig->Read(_T("/E/Label"), &label)) label = _T("E");
     ButtonE = new wxButton(this, wxClipButtonE, label.Left(wxClip_MaxLabel), wxPoint(1,100), wxSize(101,25));
     wxBitmap bitmapE = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
-    ButtonConfigE = new wxBitmapButton(this, wxClipButtonConfigE, bitmapE, wxPoint(105,100));
+    ButtonConfigE = new wxBitmapButton(this, wxClipButtonConfigE, bitmapE, wxPoint(110,105));
 
     if(TRUE != pConfig->Read(_T("/F/Label"), &label)) label = _T("F");
     ButtonF = new wxButton(this, wxClipButtonF, label.Left(wxClip_MaxLabel), wxPoint(1,125), wxSize(101,25));
     wxBitmap bitmapF = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
-    ButtonConfigF = new wxBitmapButton(this, wxClipButtonConfigF, bitmapF, wxPoint(105,125));
+    ButtonConfigF = new wxBitmapButton(this, wxClipButtonConfigF, bitmapF, wxPoint(110,130));
 
     if(TRUE != pConfig->Read(_T("/G/Label"), &label)) label = _T("G");
     ButtonG = new wxButton(this, wxClipButtonG, label.Left(wxClip_MaxLabel), wxPoint(1,150), wxSize(101,25));
     wxBitmap bitmapG = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
-    ButtonConfigG = new wxBitmapButton(this, wxClipButtonConfigG, bitmapG, wxPoint(105,150));
+    ButtonConfigG = new wxBitmapButton(this, wxClipButtonConfigG, bitmapG, wxPoint(110,155));
 
     if(TRUE != pConfig->Read(_T("/H/Label"), &label)) label = _T("H");
     ButtonH = new wxButton(this, wxClipButtonH, label.Left(wxClip_MaxLabel), wxPoint(1,175), wxSize(101,25));
     wxBitmap bitmapH = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
-    ButtonConfigH = new wxBitmapButton(this, wxClipButtonConfigH, bitmapH, wxPoint(105,175));
+    ButtonConfigH = new wxBitmapButton(this, wxClipButtonConfigH, bitmapH, wxPoint(110,180));
 
     if(TRUE != pConfig->Read(_T("/I/Label"), &label)) label = _T("I");
     ButtonI = new wxButton(this, wxClipButtonI, label.Left(wxClip_MaxLabel), wxPoint(1,200), wxSize(101,25));
     wxBitmap bitmapI = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
-    ButtonConfigI = new wxBitmapButton(this, wxClipButtonConfigI, bitmapI, wxPoint(105,200));
+    ButtonConfigI = new wxBitmapButton(this, wxClipButtonConfigI, bitmapI, wxPoint(110,205));
 
     if(TRUE != pConfig->Read(_T("/J/Label"), &label)) label = _T("J");
     ButtonJ = new wxButton(this, wxClipButtonJ, label.Left(wxClip_MaxLabel), wxPoint(1,225), wxSize(101,25));
     wxBitmap bitmapJ = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
-    ButtonConfigJ = new wxBitmapButton(this, wxClipButtonConfigJ, bitmapJ, wxPoint(105,225));
+    ButtonConfigJ = new wxBitmapButton(this, wxClipButtonConfigJ, bitmapJ, wxPoint(110,230));
+#else
+    int szBOARDER = 2;
+    wxString label;
 
+    wxPanel* panel = new wxPanel(this, wxID_ANY);
+
+    wxBoxSizer *topSizer = new wxBoxSizer( wxVERTICAL );
+
+    wxBoxSizer *itemSizerA = new wxBoxSizer( wxHORIZONTAL );
+    if(TRUE != pConfig->Read(_T("/A/Label"), &label)) label = _T("A");
+    ButtonA = new wxButton(this, wxClipButtonA, label.Left(wxClip_MaxLabel));
+    wxBitmap bitmapA = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
+    ButtonConfigA = new wxBitmapButton(this, wxClipButtonConfigA, bitmapA);
+    itemSizerA->Add(ButtonA, 0, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerA->Add(ButtonConfigA, 0, wxALIGN_RIGHT, szBOARDER);
+    topSizer->Add(itemSizerA, 0, wxGROW|wxALL, 0);
+
+    wxBoxSizer *itemSizerB = new wxBoxSizer( wxHORIZONTAL );
+    if(TRUE != pConfig->Read(_T("/B/Label"), &label)) label = _T("B");
+    ButtonB = new wxButton(this, wxClipButtonB, label.Left(wxClip_MaxLabel));
+    wxBitmap bitmapB = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
+    ButtonConfigB = new wxBitmapButton(this, wxClipButtonConfigB, bitmapB);
+    itemSizerB->Add(ButtonB, 0, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerB->Add(ButtonConfigB, 0, wxALIGN_RIGHT, szBOARDER);
+    topSizer->Add(itemSizerB, 0, wxALIGN_CENTER, 0);
+
+    wxBoxSizer *itemSizerC = new wxBoxSizer( wxHORIZONTAL );
+    if(TRUE != pConfig->Read(_T("/C/Label"), &label)) label = _T("C");
+    ButtonC = new wxButton(this, wxClipButtonC, label.Left(wxClip_MaxLabel));
+    wxBitmap bitmapC = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
+    ButtonConfigC = new wxBitmapButton(this, wxClipButtonConfigC, bitmapC);
+    itemSizerC->Add(ButtonC, 0, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerC->Add(ButtonConfigC, 0, wxALIGN_RIGHT, szBOARDER);
+    topSizer->Add(itemSizerC, 0, wxALIGN_CENTER, 0);
+
+    wxBoxSizer *itemSizerD = new wxBoxSizer( wxHORIZONTAL );
+    if(TRUE != pConfig->Read(_T("/D/Label"), &label)) label = _T("D");
+    ButtonD = new wxButton(this, wxClipButtonD, label.Left(wxClip_MaxLabel));
+    wxBitmap bitmapD = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
+    ButtonConfigD = new wxBitmapButton(this, wxClipButtonConfigD, bitmapD);
+    itemSizerD->Add(ButtonD, 0, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerD->Add(ButtonConfigD, 0, wxALIGN_RIGHT, szBOARDER);
+    topSizer->Add(itemSizerD, 0, wxALIGN_CENTER, 0);
+
+    wxBoxSizer *itemSizerE = new wxBoxSizer( wxHORIZONTAL );
+    if(TRUE != pConfig->Read(_T("/E/Label"), &label)) label = _T("E");
+    ButtonE = new wxButton(this, wxClipButtonB, label.Left(wxClip_MaxLabel));
+    wxBitmap bitmapE = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
+    ButtonConfigE = new wxBitmapButton(this, wxClipButtonConfigE, bitmapE);
+    itemSizerE->Add(ButtonE, 0, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerE->Add(ButtonConfigE, 0, wxALIGN_RIGHT, szBOARDER);
+    topSizer->Add(itemSizerE, 0, wxALIGN_CENTER, 0);
+
+    wxBoxSizer *itemSizerF = new wxBoxSizer( wxHORIZONTAL );
+    if(TRUE != pConfig->Read(_T("/F/Label"), &label)) label = _T("F");
+    ButtonF = new wxButton(this, wxClipButtonF, label.Left(wxClip_MaxLabel));
+    wxBitmap bitmapF = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
+    ButtonConfigF = new wxBitmapButton(this, wxClipButtonConfigF, bitmapF);
+    itemSizerF->Add(ButtonF, 0, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerF->Add(ButtonConfigF, 0, wxALIGN_RIGHT, szBOARDER);
+    topSizer->Add(itemSizerF, 0, wxALIGN_CENTER, 0);
+
+    wxBoxSizer *itemSizerG = new wxBoxSizer( wxHORIZONTAL );
+    if(TRUE != pConfig->Read(_T("/G/Label"), &label)) label = _T("G");
+    ButtonG = new wxButton(this, wxClipButtonG, label.Left(wxClip_MaxLabel));
+    wxBitmap bitmapG = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
+    ButtonConfigG = new wxBitmapButton(this, wxClipButtonConfigG, bitmapG);
+    itemSizerG->Add(ButtonG, 0, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerG->Add(ButtonConfigG, 0, wxALIGN_RIGHT, szBOARDER);
+    topSizer->Add(itemSizerG, 0, wxALIGN_CENTER, 0);
+
+    wxBoxSizer *itemSizerH = new wxBoxSizer( wxHORIZONTAL );
+    if(TRUE != pConfig->Read(_T("/H/Label"), &label)) label = _T("H");
+    ButtonH = new wxButton(this, wxClipButtonH, label.Left(wxClip_MaxLabel));
+    wxBitmap bitmapH = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
+    ButtonConfigH = new wxBitmapButton(this, wxClipButtonConfigH, bitmapH);
+    itemSizerH->Add(ButtonH, 0, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerH->Add(ButtonConfigH, 0, wxALIGN_RIGHT, szBOARDER);
+    topSizer->Add(itemSizerH, 0, wxALIGN_CENTER, 0);
+
+    wxBoxSizer *itemSizerI = new wxBoxSizer( wxHORIZONTAL );
+    if(TRUE != pConfig->Read(_T("/I/Label"), &label)) label = _T("I");
+    ButtonI = new wxButton(this, wxClipButtonI, label.Left(wxClip_MaxLabel));
+    wxBitmap bitmapI = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
+    ButtonConfigI = new wxBitmapButton(this, wxClipButtonConfigI, bitmapI);
+    itemSizerI->Add(ButtonI, 0, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerI->Add(ButtonConfigI, 0, wxALIGN_RIGHT, szBOARDER);
+    topSizer->Add(itemSizerI, 0, wxALIGN_CENTER, 0);
+
+    wxBoxSizer *itemSizerJ = new wxBoxSizer( wxHORIZONTAL );
+    if(TRUE != pConfig->Read(_T("/J/Label"), &label)) label = _T("J");
+    ButtonJ = new wxButton(this, wxClipButtonJ, label.Left(wxClip_MaxLabel));
+    wxBitmap bitmapJ = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
+    ButtonConfigJ = new wxBitmapButton(this, wxClipButtonConfigJ, bitmapJ);
+    itemSizerJ->Add(ButtonJ, 0, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerJ->Add(ButtonConfigJ, 0, wxALIGN_RIGHT, szBOARDER);
+    topSizer->Add(itemSizerJ, 0, wxALIGN_CENTER, 0);
+
+    panel->SetSizerAndFit(topSizer);
+    panel->Layout();
+    Fit();
+#endif
     pConfig->SetPath(_T("/MainFrame"));
     // restore frame position and size
     int x = pConfig->Read(_T("x"), 50),
@@ -464,7 +574,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
         w = pConfig->Read(_T("w"), wxClip_Width),
         h = pConfig->Read(_T("h"), wxClip_Height);
     Move(x, y);
-    SetClientSize(w, h);
+    //SetClientSize(w, h);
 
     wxMenu *menubarMenu = new wxMenu;
     menubarMenu->Append(Menu_MenuBar_Exit, _T("E&xit"), _T("Exit"));
@@ -615,21 +725,25 @@ MyFrame::OnButtonClick(wxCommandEvent& event)
         break;
     }
 
+
+
+
     if(true == asFile)
     {
-        const char * name = text.ToUTF8();
+        const char * name = text.c_str();
         {
-            wxMessageDialog dialog(this, name, _T("wxClip Error"), wxOK );
-            dialog.ShowModal();
+            //wxMessageDialog dialog(this, name, _("wxClip Error"), wxOK );
+            //dialog.ShowModal();
         }
         wxFileName fname = wxFileName(name);
-        if (true == fname.FileExists()) //wxFile::Exists(name))
+        if (true == fname.FileExists()) // wxFile::Exists(name) */ true)
         {
             if(true == wxFile::Access(name, wxFile::read))
             {
                 wxFile f(name, wxFile::read);
                 if(TRUE == f.IsOpened())
                 {
+#if 0
                     off_t c = f.Length();
                     wxChar *a = new wxChar[c+1];
                     off_t l = f.Read(a, c);
@@ -638,16 +752,30 @@ MyFrame::OnButtonClick(wxCommandEvent& event)
                     text = a;
                     text.c_str();
                     delete a;
+#else
+                    size_t len = f.Length();
+                    wxCharBuffer buff(len);
+                    size_t readlen = f.Read(buff.data(), len);
+                    wxASSERT(len==readlen);
+                    text = buff.data();
+        {
+            wxMessageDialog dialog(this, text, _("wxClip Error"), wxOK );
+            dialog.ShowModal();
+        }
+                    f.Close();
+#endif
                 }
                 else
                 {
-                    wxMessageDialog dialog(this, _T("File open failed"), _T("wxClip Error"), wxOK );
+                    wxMessageDialog dialog(this, _T("File open failed"), 
+                                                       _T("wxClip Error"), wxOK );
                     dialog.ShowModal();
                 }
             }
             else
             {
-                wxMessageDialog dialog(this, _T("File is not readable"), _T("wxClip Error"), wxOK );
+                wxMessageDialog dialog(this, _T("File is not readable"), 
+                                                       _T("wxClip Error"), wxOK );
                 dialog.ShowModal();
             }
         }
