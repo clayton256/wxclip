@@ -480,13 +480,8 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     ButtonA = new wxButton(this, wxClipButtonA, label.Left(wxClip_MaxLabel));
     wxBitmap bitmapA = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
     ButtonConfigA = new wxBitmapButton(this, wxClipButtonConfigA, bitmapA);
-<<<<<<< HEAD
     itemSizerA->Add(ButtonA, 1, wxALIGN_LEFT|wxLEFT|wxRIGHT|wxTOP, szBOARDER);
-    itemSizerA->Add(ButtonConfigA, 0, wxALIGN_RIGHT, szBOARDER);
-=======
-    itemSizerA->Add(ButtonA, 1, wxALIGN_LEFT|wxLEFT|wxRIGHT, szBOARDER);
     itemSizerA->Add(ButtonConfigA, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, szBOARDER);
->>>>>>> 1ef2bd045c5120dd85cf53d1d13852d34f0ea175
     topSizer->Add(itemSizerA, 0, wxGROW, 0);
 
     wxBoxSizer *itemSizerB = new wxBoxSizer( wxHORIZONTAL );
@@ -566,13 +561,8 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     ButtonJ = new wxButton(this, wxClipButtonJ, label.Left(wxClip_MaxLabel));
     wxBitmap bitmapJ = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
     ButtonConfigJ = new wxBitmapButton(this, wxClipButtonConfigJ, bitmapE);
-<<<<<<< HEAD
     itemSizerJ->Add(ButtonJ, 1, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, szBOARDER);
-    itemSizerJ->Add(ButtonConfigJ, 0, wxALIGN_RIGHT, szBOARDER);
-=======
-    itemSizerJ->Add(ButtonJ, 1, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
     itemSizerJ->Add(ButtonConfigJ, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, szBOARDER);
->>>>>>> 1ef2bd045c5120dd85cf53d1d13852d34f0ea175
     topSizer->Add(itemSizerJ, 0, wxGROW, 0);
 
     Layout();
