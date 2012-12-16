@@ -397,11 +397,13 @@ int MyApp::OnExit()
 // frame constructor
 MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
        : wxFrame((wxFrame *)NULL, -1, title, pos, size,
-       wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER|wxMAXIMIZE_BOX))
+                  wxCAPTION|wxSIMPLE_BORDER|wxSYSTEM_MENU
+                  |wxCLOSE_BOX|wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP)
 {
     pConfig = wxConfigBase::Get(_T("wxclip"));
 
-#if defined(__WXGTK__) || defined(__WXMOTIF__) ||defined(__WXOSX_COCOA__)
+#if 0
+    defined(__WXGTK__) || defined(__WXMOTIF__) ||defined(__WXOSX_COCOA__)
     // set the frame icon
 #ifndef MYTASKBARICON
     SetIcon(wxICON(clipboard));
