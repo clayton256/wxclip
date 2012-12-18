@@ -6,12 +6,13 @@ wxclip
 *.pdb
 *.res
 cov-int
-project.tgz
+*.tgz
 .DS_Store
 .deps
+*~
+*.o
 *.app
 descrip.mms
-test.png
 *.dsp
 *.dsw
 *~

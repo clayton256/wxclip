@@ -397,11 +397,13 @@ int MyApp::OnExit()
 // frame constructor
 MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
        : wxFrame((wxFrame *)NULL, -1, title, pos, size,
-wxSYSTEM_MENU|wxCAPTION|wxCLOSE_BOX|wxCLIP_CHILDREN|wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP)
+                    wxCAPTION|wxSIMPLE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
+                                            |wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP)
 {
     pConfig = wxConfigBase::Get(_T("wxclip"));
 
-#if defined(__WXGTK__) || defined(__WXMOTIF__) ||defined(__WXOSX_COCOA__)
+#if 0
+    defined(__WXGTK__) || defined(__WXMOTIF__) ||defined(__WXOSX_COCOA__)
     // set the frame icon
 #ifndef MYTASKBARICON
     SetIcon(wxICON(clipboard));
@@ -480,7 +482,7 @@ wxSYSTEM_MENU|wxCAPTION|wxCLOSE_BOX|wxCLIP_CHILDREN|wxFRAME_NO_TASKBAR|wxSTAY_ON
     ButtonA = new wxButton(this, wxClipButtonA, label.Left(wxClip_MaxLabel));
     wxBitmap bitmapA = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
     ButtonConfigA = new wxBitmapButton(this, wxClipButtonConfigA, bitmapA);
-    itemSizerA->Add(ButtonA, 1, wxALIGN_LEFT|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerA->Add(ButtonA, 1, wxALIGN_LEFT|wxLEFT|wxRIGHT|wxTOP, szBOARDER);
     itemSizerA->Add(ButtonConfigA, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, szBOARDER);
     topSizer->Add(itemSizerA, 0, wxGROW, 0);
 
@@ -561,7 +563,7 @@ wxSYSTEM_MENU|wxCAPTION|wxCLOSE_BOX|wxCLIP_CHILDREN|wxFRAME_NO_TASKBAR|wxSTAY_ON
     ButtonJ = new wxButton(this, wxClipButtonJ, label.Left(wxClip_MaxLabel));
     wxBitmap bitmapJ = wxBitmap(dir + _T("clipboard.bmp"), wxBITMAP_TYPE_BMP);
     ButtonConfigJ = new wxBitmapButton(this, wxClipButtonConfigJ, bitmapE);
-    itemSizerJ->Add(ButtonJ, 1, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT, szBOARDER);
+    itemSizerJ->Add(ButtonJ, 1, wxALIGN_LEFT|wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, szBOARDER);
     itemSizerJ->Add(ButtonConfigJ, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, szBOARDER);
     topSizer->Add(itemSizerJ, 0, wxGROW, 0);
 
