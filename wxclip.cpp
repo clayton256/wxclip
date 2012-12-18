@@ -576,10 +576,10 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 #endif
     pConfig->SetPath(_T("/MainFrame"));
     // restore frame position and size
-    int x = pConfig->Read(_T("x"), 50),
-        y = pConfig->Read(_T("y"), 50),
-        w = pConfig->Read(_T("w"), wxClip_Width),
-        h = pConfig->Read(_T("h"), wxClip_Height+wxClip_Height);
+    int x = pConfig->Read(_T("x"), 50);
+    int y = pConfig->Read(_T("y"), 50);
+    //int w = pConfig->Read(_T("w"), wxClip_Width);
+    //int h = pConfig->Read(_T("h"), wxClip_Height+wxClip_Height);
     Move(x, y);
     //SetClientSize(w, h);
 
@@ -601,6 +601,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     }
     // we should be able to show up to 128 characters on recent Windows versions
     // (and 64 on Win9x)
+    /* AAAAAAAA */
     if ( !m_taskBarIcon->SetIcon(wxICON(clipboard),
                                  "wxTaskBarIcon Sample\n"
                                  "With a very, very, very, very\n"
