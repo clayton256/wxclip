@@ -397,8 +397,8 @@ int MyApp::OnExit()
 // frame constructor
 MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
        : wxFrame((wxFrame *)NULL, -1, title, pos, size,
-                  wxCAPTION|wxSIMPLE_BORDER|wxSYSTEM_MENU
-                  |wxCLOSE_BOX|wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP)
+                    wxCAPTION|wxSIMPLE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
+                                            |wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP)
 {
     pConfig = wxConfigBase::Get(_T("wxclip"));
 
