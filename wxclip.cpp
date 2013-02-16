@@ -52,6 +52,8 @@
 #include <wx/wfstream.h>
 #include <wx/taskbar.h>
 #include <wx/filename.h>
+#include <wx/stdpaths.h>
+
 
 const static int wxClip_MaxLabel = 14;
 const static int wxClip_MaxText  = 2048;
@@ -402,22 +404,13 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 {
     pConfig = wxConfigBase::Get(_T("wxclip"));
 
-#if 0
-    defined(__WXGTK__) || defined(__WXMOTIF__) ||defined(__WXOSX_COCOA__)
-    // set the frame icon
-#ifndef MYTASKBARICON
-    SetIcon(wxICON(clipboard));
-#endif
-#endif
-#if defined(__WXOSX_COCOA__)
-    wxString dir = "/Library/Application Support/wxclip/pixmaps/";
-#elif defined(__WXGTK__)
-    wxString dir = "./";
-#elif defined(__WXMSW__)
-    wxString dir = "\\Program Files\\wxclip\\pixmaps\\";
-#else
-#error where are the pix?
-#endif
+    // Try to find the images in the platform specific location
+    // Unix: <prefix>/share/appname where prefix is "/usr/local"
+    //       unless changed by ::SetInstallPrefix()
+    // Windows: the directory where the executable file is located
+    // Mac: appname.app/Contents/Resources bundle subdirectory
+    wxString dir = wxStandardPaths::Get().GetResourcesDir() + wxT("/pixmaps/");
+
 #if 0
     wxString label;
     if(TRUE != pConfig->Read(_T("/A/Label"), &label)) label = _T("A");
