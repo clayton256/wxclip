@@ -2,13 +2,17 @@
 EXENAME=wxclip
 APPNAME=$(EXENAME).app
 
+BUILDDIR=macosx/
+
 #g++ -mmacosx-version-min=10.5 -c -o bombs_bombs.o -D__WXOSX_COCOA__      -I../../../demos/bombs  -I../../../demos/bombs/../../samples -Wall -Wundef -Wunused-parameter -Wno-ctor-dtor-privacy -Woverloaded-virtual -Wno-deprecated-declarations -D_FILE_OFFSET_BITS=64 -I/Users/mark/Projects/wxWidgets-2.9.4/cocoa-debug/lib/wx/include/osx_cocoa-unicode-static-2.9 -I../../../include -DWX_PRECOMP -g -O0 -fno-common  ../../../demos/bombs/bombs.cpp
 
 all: $(APPNAME)
 
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
 
-wxclip.o: wxclip.cpp clipboard.xpm
-	g++ -mmacosx-version-min=10.5 -c -o wxclip.o -D__WXOSX_COCOA__ -Wall -Wundef -Wunused-parameter -Wno-ctor-dtor-privacy -Woverloaded-virtual -Wno-deprecated-declarations -D_FILE_OFFSET_BITS=64 -I/Users/mark/Projects/wxWidgets-2.9.4/cocoa-debug/lib/wx/include/osx_cocoa-unicode-static-2.9 -I/Users/mark/Projects/wxWidgets-2.9.4/include -DWX_PRECOMP -g -O0 -fno-common wxclip.cpp
+$(BUILDDIR)wxclip.o: wxclip.cpp clipboard.xpm $(BUILDDIR)
+	g++ -mmacosx-version-min=10.5 -c -o $(BUILDDIR)wxclip.o -D__WXOSX_COCOA__ -Wall -Wundef -Wunused-parameter -Wno-ctor-dtor-privacy -Woverloaded-virtual -Wno-deprecated-declarations -D_FILE_OFFSET_BITS=64 -I/Users/mark/Projects/wxWidgets-2.9.4/cocoa-debug/lib/wx/include/osx_cocoa-unicode-static-2.9 -I/Users/mark/Projects/wxWidgets-2.9.4/include -DWX_PRECOMP -g -O0 -fno-common wxclip.cpp
 
 #g++ -mmacosx-version-min=10.5 -o wxpoem  wxpoem_wxpoem.o     -L/Users/mark/Projects/wxWidgets-2.9.4/cocoa-debug/lib   -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework System -framework OpenGL   -lwx_osx_cocoau_html-2.9  -lwx_osx_cocoau_core-2.9  -lwx_baseu-2.9   -lwxtiff-2.9 -lwxjpeg-2.9 -lwxpng-2.9 -framework WebKit  -lwxregexu-2.9  -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework System -framework OpenGL  -lz -lpthread -liconv  -lz -lpthread -liconv
 #SetFile -t APPL wxpoem
@@ -23,9 +27,9 @@ wxclip.o: wxclip.cpp clipboard.xpm
 #ln -f wxpoem wxpoem.app/Contents/MacOS/wxpoem
 #cp -f ../../../src/osx/carbon/wxmac.icns wxpoem.app/Contents/Resources/wxmac.icns
 
-$(APPNAME): wxclip.o wxclip.icns Info.plist.in
-	g++ -mmacosx-version-min=10.5 -o wxclip wxclip.o -L/Users/mark/Projects/wxWidgets-2.9.4/cocoa-debug/lib -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework System -framework OpenGL -lwx_osx_cocoau_html-2.9 -lwx_osx_cocoau_core-2.9 -lwx_osx_cocoau_adv-2.9 -lwx_baseu-2.9 -lwxtiff-2.9 -lwxjpeg-2.9 -lwxpng-2.9 -framework WebKit -lwxregexu-2.9 -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework System -framework OpenGL -lz -lpthread -liconv -lz -lpthread -liconv
-	SetFile -t APPL $(EXENAME)
+$(APPNAME): $(BUILDDIR)wxclip.o $(BUILDDIR)wxclip.icns Info.plist.in
+	g++ -mmacosx-version-min=10.5 -o $(BUILDDIR)wxclip $(BUILDDIR)wxclip.o -L/Users/mark/Projects/wxWidgets-2.9.4/cocoa-debug/lib -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework System -framework OpenGL -lwx_osx_cocoau_html-2.9 -lwx_osx_cocoau_core-2.9 -lwx_osx_cocoau_adv-2.9 -lwx_baseu-2.9 -lwxtiff-2.9 -lwxjpeg-2.9 -lwxpng-2.9 -framework WebKit -lwxregexu-2.9 -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework System -framework OpenGL -lz -lpthread -liconv -lz -lpthread -liconv
+	SetFile -t APPL $(BUILDDIR)$(EXENAME)
 	mkdir -p $(APPNAME)/Contents
 	mkdir -p $(APPNAME)/Contents/MacOS
 	mkdir -p $(APPNAME)/Contents/Resources
@@ -35,12 +39,14 @@ $(APPNAME): wxclip.o wxclip.icns Info.plist.in
 		-e "s/VERSION/2.9.4/" \
 		Info.plist.in >$(APPNAME)/Contents/Info.plist
 	/bin/echo "APPL????" >$(APPNAME)/Contents/PkgInfo
-	ln -f wxclip $(APPNAME)/Contents/MacOS/wxclip
+	ln -f $(BUILDDIR)wxclip $(APPNAME)/Contents/MacOS/wxclip
 	cp -f clipboard.bmp $(APPNAME)/Contents/Resources/pixmaps/
-	cp -f wxclip.icns $(APPNAME)/Contents/Resources/wxclip.icns
+	cp -f $(BUILDDIR)wxclip.icns $(APPNAME)/Contents/Resources/wxclip.icns
 
-wxclip.icns: clipboard.png
-	sips -s format icns clipboard.png --out wxclip.icns
+$(BUILDDIR)wxclip.icns: clipboard.png
+	sips -s format icns clipboard.png --out $(BUILDDIR)wxclip.icns
 
 clean:
-	rm -rf $(APPNAME) $(EXENAME) *.o wxclip.icns 
+	rm -rf $(APPNAME) $(BUILDDIR)$(EXENAME) $(BUILDDIR)*.o $(BUILDDIR)wxclip.icns
+
+

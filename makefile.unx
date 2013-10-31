@@ -13,6 +13,7 @@
 # under Linux.
 #
 
+WXDIR=/home/mark/Projects/wxWidgets-master/gtk-debug/
 CC = gcc
 
 PROGRAM = wxclip
@@ -24,12 +25,12 @@ OBJECTS = $(PROGRAM).o
 .SUFFIXES:	.o .cpp
 
 .cpp.o :
-	$(CC) -c -g -DMYTASKBARICON `wx-config --cflags` -o $@ $<
+	$(CC) -c -g -DMYTASKBARICON `$(WXDIR)wx-config --cflags` -o $@ $<
 
 all:    $(PROGRAM)
 
 $(PROGRAM):	$(OBJECTS)
-	$(CC) -g -o $(PROGRAM) $(OBJECTS) `wx-config --libs`
+	$(CC) -g -o $(PROGRAM) $(OBJECTS) `$(WXDIR)wx-config --libs`
 
 clean: 
 	rm -f *.o $(PROGRAM)
